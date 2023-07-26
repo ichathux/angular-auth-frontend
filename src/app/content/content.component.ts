@@ -8,8 +8,16 @@ import { AxiosService } from '../axios.service';
 })
 export class ContentComponent  {
 
+  componentToShow: string = "welcome";
   constructor(private axiosService : AxiosService){}
 
+  isUserLoggedIn():boolean{
+    // console.log(this.axiosService.checkUserLoggedIn())
+    return this.axiosService.checkUserLoggedIn();
+  }
+  showComponent(componentToShow : string): void{
+    this.componentToShow = componentToShow;
+  }
   onLogin(input : any): void{
     this.axiosService.request(
       "POST",
@@ -18,7 +26,10 @@ export class ContentComponent  {
         login: input.login,
         password: input.password
       }
-    )
+    ).then(response => {
+      this.axiosService.setAuthToken(response.data.token);
+      this.componentToShow = "messages";
+    });
   }
   onRegister(input : any): void{
     this.axiosService.request(
@@ -30,6 +41,9 @@ export class ContentComponent  {
         login: input.login,
         password: input.password
       }
-    )
+    ).then(response => {
+      this.axiosService.setAuthToken(response.data.token);
+      this.componentToShow = "messages";
+    });
   }
 }
