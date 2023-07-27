@@ -17,7 +17,7 @@ export class AxiosService {
     if(token !== null){
       window.localStorage.setItem("auth_token", token);
       const expiredAt= (String)((new Date).getTime()+2160000);
-      console.log('date ', expiredAt);
+      // console.log('date ', expiredAt);
       window.localStorage.setItem("expiredAt", expiredAt);
     }else{
       window.localStorage.removeItem("auth_token");
@@ -34,10 +34,11 @@ export class AxiosService {
     const epochNow= (new Date).getTime();
     if(this.getAuthToken() !== null){
       if((Number)(window.localStorage.getItem("expiredAt")) < epochNow){
-        console.log("expired ", epochNow);
+        // console.log("expired ", epochNow);
+        this.logout();
         return false;
       }else{
-        console.log("not expired");
+        // console.log("not expired");
         return true;
       }
     }else{
@@ -52,9 +53,8 @@ export class AxiosService {
     return false;
   }
   request(method : string,url : string, data : any) : Promise<any>{
-    if(!this.checkAuthTokenValid()){
-      this.logout();
-    }
+    
+    this.checkAuthTokenValid() 
     let headers = {};
     
     if(this.getAuthToken() !== null){

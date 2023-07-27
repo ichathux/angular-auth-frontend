@@ -6,10 +6,22 @@ import { AxiosService } from '../axios.service';
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css']
 })
-export class ContentComponent  {
+export class ContentComponent implements OnInit{
 
   componentToShow: string = "welcome";
   constructor(private axiosService : AxiosService){}
+
+  ngOnInit(): void {
+
+    // if (this.axiosService.checkAuthTokenValid()) {
+    //   this.componentToShow = "messages"
+      
+    // }else{
+    //   // this.axiosService.logout();
+    //   this.componentToShow = "welcome";
+    // }
+
+  }
 
   isUserLoggedIn():boolean{
     // console.log(this.axiosService.checkUserLoggedIn())

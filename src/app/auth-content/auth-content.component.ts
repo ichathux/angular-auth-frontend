@@ -10,10 +10,12 @@ import {AxiosService} from '../axios.service';
 export class AuthContentComponent implements OnInit {
 
   data: string[] = [];
+  userList : string[] = [];
 
   constructor(private axiosService : AxiosService) { }
 
   ngOnInit(): void {
+
     this.axiosService.request("GET","/messages",{})
     .then(
       (response) => this.data = response.data).catch(
@@ -25,7 +27,22 @@ export class AuthContentComponent implements OnInit {
             }
 
         }
-    );;
+    );
+    this.axiosService.request("GET", "/GetUserList",{})
+    .then(
+      (response) => {
+        console.log(response)
+        this.userList = response.data;
+      }
+    ).catch(
+      (error) =>{
+        console.log(error)
+      //   if (error.response.status === 401) {
+      //     this.axiosService.setAuthToken(null);
+      // } else {
+      //     this.data = error.response.code;
+      // }
+    })
 
   }
 
